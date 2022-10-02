@@ -1,0 +1,428 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Omni Channel -  GirlsNodePower",
+    "description": "Serviço HTTP resolvendo funcionalidade Omni CHannel do cliente"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Lojas",
+      "description": "Endpoints relacionados aos recursos de loja."
+    },
+    {
+      "name": "Produtos",
+      "description": "Endpoints relacionados aos recusos de produto"
+    },
+    {
+      "name": "Clientes",
+      "description": "Endpoints relacionados aos recusos de cliente"
+    },
+    {
+      "name": "Compras",
+      "description": "Endpoints relacionados aos recusos de compras do cliente"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/clientes/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint para cadastrar um cliente",
+        "parameters": [
+          {
+            "name": "NovoCliente",
+            "in": "body",
+            "description": "Informações do cliente",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/NovoCliente"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Nome e telefone são obrigatórios"
+          }
+        }
+      }
+    },
+    "/clientes/{id}/compras": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "Endpoint para listar compras do cliente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do cliente."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listagem de compras do cliente.",
+            "schema": {
+              "$ref": "#/definitions/Clientes"
+            }
+          },
+          "400": {
+            "description": "Desculpe, ocorreu um problema."
+          }
+        }
+      }
+    },
+    "/clientes/{id}/compras/lojas/{idloja}": {
+      "post": {
+        "tags": [
+          "Compras"
+        ],
+        "description": "Endpoint para adicionar produto na compra de um cliente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do cliente."
+          },
+          {
+            "name": "idloja",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da loja."
+          },
+          {
+            "name": "AdicionarProduto",
+            "in": "body",
+            "description": "Adicionar Produto na compra de um cliente",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AdicionarProduto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Esta compra já possui uma unidade do produto. Só é permitido 1 por compra"
+          }
+        }
+      }
+    },
+    "/clientes/{id}/compras/{idcompra}/produtos/{produtoid}": {
+      "delete": {
+        "tags": [
+          "Compras"
+        ],
+        "description": "Endpoint para remover produto da compra do cliente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do cliente."
+          },
+          {
+            "name": "idcompra",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da compra."
+          },
+          {
+            "name": "produtoid",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do produto a ser removido."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Só é possível retirar um item de uma compra em andamento. Status atual: RETIRADO"
+          }
+        }
+      }
+    },
+    "/clientes/{id}/compras/{idcompra}/finalizar": {
+      "patch": {
+        "tags": [
+          "Compras"
+        ],
+        "description": "Endpoint para finalizar compras do cliente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do cliente."
+          },
+          {
+            "name": "idcompra",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da compra."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Não foi possivel finalizar a sua compra"
+          }
+        }
+      }
+    },
+    "/clientes/{id}/compras/{idcompra}/retirar": {
+      "patch": {
+        "tags": [
+          "Compras"
+        ],
+        "description": "Endpoint para retirar compras na loja",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do cliente."
+          },
+          {
+            "name": "idcompra",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da compra."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Não é possivel retirar sua compra"
+          }
+        }
+      }
+    },
+    "/produtos/": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "description": "Endpoint para obter uma lista de produtos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Listagem de produtos.",
+            "schema": {
+              "$ref": "#/definitions/Produtos"
+            }
+          },
+          "400": {
+            "description": "Desculpe, ocorreu um problema."
+          }
+        }
+      },
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/lojas/": {
+      "get": {
+        "tags": [
+          "Lojas"
+        ],
+        "description": "Endpoint para obter uma lista de lojas",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Listagem de lojas.",
+            "schema": {
+              "$ref": "#/definitions/Lojas"
+            }
+          },
+          "400": {
+            "description": "Desculpe, ocorreu um problema."
+          }
+        }
+      },
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                },
+                "endereco": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Lojas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 2
+          },
+          "nome": {
+            "type": "string",
+            "example": "Loja Osasco"
+          },
+          "endereco": {
+            "type": "string",
+            "example": "Centro "
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2021-09-01T01:03:52.018Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2021-09-01T01:03:52.018Z"
+          }
+        }
+      }
+    },
+    "Produtos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "nome": {
+            "type": "string",
+            "example": "Celular"
+          },
+          "preco": {
+            "type": "number",
+            "example": 1000
+          },
+          "categoria": {
+            "type": "string",
+            "example": "telefonia"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2021-09-01T01:03:52.018Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2021-09-01T01:03:52.018Z"
+          }
+        }
+      }
+    },
+    "NovoCliente": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Luiza"
+        },
+        "email": {
+          "type": "string",
+          "example": "user@dominio.com"
+        },
+        "endereco": {
+          "type": "string",
+          "example": "Rua xxx,10 - Franca/SP"
+        },
+        "telefone": {
+          "type": "string",
+          "example": "(16)987654321"
+        }
+      },
+      "required": [
+        "nome",
+        "email",
+        "endereco",
+        "telefone"
+      ]
+    },
+    "AdicionarProduto": {
+      "type": "object",
+      "properties": {
+        "produtoId": {
+          "type": "number",
+          "example": 2
+        }
+      },
+      "required": [
+        "produtoId"
+      ]
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "girlsnodepower",
+  "version": "1.0.0",
+  "description": "Projeto para conclusão do desafio do curso de node",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js ",
+    "swagger": "node src/swagger.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eilem/GirlsNodePower.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eilem/GirlsNodePower/issues"
+  },
+  "homepage": "https://github.com/Eilem/GirlsNodePower#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-routes": "^1.0.1",
+    "express-validation": "^3.0.8",
+    "express-validator": "^6.12.1",
+    "nodemon": "^2.0.12",
+    "pg": "^8.7.1",
+    "sequelize": "^6.6.5",
+    "swagger-autogen": "^2.11.2",
+    "swagger-ui-express": "^4.1.6"
+  }
+}
